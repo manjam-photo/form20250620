@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>撮影費用お見積りシュミレーター</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #fff;
+      color: #000;
+      padding: 1rem;
+      max-width: 600px;
+      margin: auto;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      line-height: 1.6;
+      font-size: 1.1rem;
+    }
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+    label, select {
+      display: block;
+      margin-top: 1rem;
+      width: 100%;
+    }
+    select {
+      padding: 0.5rem;
+      font-size: 1.1rem;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .row select {
+      flex: 1;
+    }
+    .total, .details, .info, .note {
+      margin-top: 1.5rem;
+      font-weight: normal;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    .button-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1.1rem;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1.5rem;
+    }
+    button:disabled {
+      background-color: #ddd;
+      cursor: not-allowed;
+    }
+    button:hover:not(:disabled) {
+      background-color: #e0e0e0;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h2>撮影費用お見積りシュミレーター</h2>
+
+  <label for="location">地域を選択：</label>
+  <select id="location"></select>
+
+  <label for="plan">間取りを選択：</label>
+  <select id="plan"></select>
+
+  <label for="option">オプションの選択：</label>
+  <select id="option"></select>
+  <div class="button-row">
+  <button id="calcBtn" disabled>計算する</button>
+  <button id="altBtn">地域が選択にないので見積りを依頼</button>
+</div>
+<div class="total">税込合計：<span id="total">-</span></div>
+  <div class="details">所要時間：<span id="duration">-</span></div>
+  <div class="details">納品枚数：<span id="images">-補償</span></div>
+  <div class="info">お得情報：<span id="bonus">-</span></div>
+
+  <div class="note">ご予約に進む場合は下記のカレンダーを参照していただきご希望の日時を指定して、お支払い方法を選択してください。</div>
+
+  <label>日時の指定：</label>
+  <div class="row">
+    <select id="month"></select>
+    <select id="day"></select>
+    <select id="time"></select>
+  </div>
+
+  <label for="payment">お支払い方法の選択：</label>
+  <select id="payment">
+    <option value="">選択してください</option>
+    <option value="クレジットカード払い">クレジットカード払い</option>
+    <option value="銀行振込">銀行振込</option>
+  </select>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const locations = [
+  { label: "東京23区", value: "28000" },
+  { label: "横浜", value: "31000" },
+  { label: "市川市・千葉市", value: "31000" },
+  { label: "湘南", value: "38500" },
+  { label: "九十九里・いすみ・南房総", value: "40000" },
+  { label: "小田原", value: "40600" },
+  { label: "箱根", value: "41300" },
+  { label: "伊豆", value: "44000" },
+  { label: "軽井沢", value: "46000" },
+  { label: "名古屋", value: "56600" },
+  { label: "京都", value: "63000" },
+  { label: "大阪", value: "64000" },
+  { label: "金沢", value: "68000" },
+  { label: "福岡", value: "80000" },
+  { label: "札幌", value: "67000" },
+  { label: "函館", value: "67000" },
+  { label: "小樽", value: "67000" },
+  { label: "ニセコ", value: "67000" },
+  { label: "沖縄（那覇）", value: "67000" },
+];
+      const plans = [
+        { label: "1LDK", value: "0" },
+        { label: "2LDK", value: "4000" },
+        { label: "3LDK以上", value: "8000" }
+      ];
+      const options = [
+        { label: "なし", value: "none" },
+        { label: "カトラリー集合写真（+¥4000）", value: "4000" },
+        { label: "夜撮影（+基本料金の50%）", value: "half" },
+        { label: "カトラリー＋夜撮影", value: "both" }
+      ];
+      function populate(id, items) {
+        const select = document.getElementById(id);
+        select.innerHTML = '<option value="">選択してください</option>' +
+          items.map(i => `<option value="${i.value}">${i.label}</option>`).join('');
+      }
+      populate("location", locations);
+      populate("plan", plans);
+      populate("option", options);
+      populate("month", Array.from({length: 12}, (_, i) => ({ label: `${i+1}月`, value: i+1 })));
+      populate("day", Array.from({length: 31}, (_, i) => ({ label: `${i+1}日`, value: i+1 })));
+      populate("time", Array.from({length: 17}, (_, i) => {
+        const h = 8 + Math.floor(i/2);
+        const m = i%2 === 0 ? '00' : '30';
+        return { label: `${h}:${m}`, value: `${h}:${m}` };
+      }));
+
+      const state = {};
+      const inputs = ["location", "plan", "option", "payment", "month", "day", "time"];
+      inputs.forEach(id => document.getElementById(id).addEventListener("change", () => {
+        state[id] = document.getElementById(id).value;
+        document.getElementById("calcBtn").disabled = !(state.location && state.plan && state.option);
+        document.getElementById("bookBtn").disabled = !(inputs.every(k => state[k]));
+      }));
+
+      document.getElementById("calcBtn").addEventListener("click", () => {
+        const loc = parseInt(state.location);
+        const plan = parseInt(state.plan);
+        let optAdd = 0;
+        if (state.option === "4000") optAdd = 4000;
+        else if (state.option === "half") optAdd = Math.round((loc + plan) * 0.5);
+        else if (state.option === "both") optAdd = 4000 + Math.round((loc + plan) * 0.5);
+        const loc = parseInt(state.location);
+        const plan = parseInt(state.plan);
+        let optAdd = 0;
+        if (state.option === "4000") optAdd = 4000;
+        else if (state.option === "half") optAdd = Math.round((loc + plan) * 0.5);
+        else if (state.option === "both") optAdd = 4000 + Math.round((loc + plan) * 0.5);
+        const subtotal = loc + plan + optAdd;
+        const tax = Math.round(subtotal * 0.10);
+        const total = subtotal + tax;
+        document.getElementById("total").textContent = `¥${total.toLocaleString()}`;
+        document.getElementById("total").textContent = `¥${total.toLocaleString()}`;
+        const idx = ["0", "4000", "8000"].indexOf(state.plan);
+        const timeBase = [60, 70, 80], imgBase = [30, 35, 40], nightT = [30, 35, 40], nightI = [8, 13, 18];
+        let t = timeBase[idx], i = imgBase[idx];
+        if (["4000", "both"].includes(state.option)) { t += 30; i += 5; }
+        if (["half", "both"].includes(state.option)) { t += nightT[idx]; i += nightI[idx]; }
+        document.getElementById("duration").textContent = `${t}分`;
+        document.getElementById("images").textContent = `${i}枚補償`;
+        document.getElementById("bonus").textContent = state.location === "28000"
+          ? "同じ建物内で２件（2リスティング）以上を同日にまとめてお申込みいただくと『まとめ割引』を適用できます。お見積りを差し上げますので、『リスティング数』と『それぞれの間取り』を必ずご明記のうえ、ご予約に進むかお問合せ下さい。"
+          : "1. 同じ建物内で２件以上→まとめ割引\n2. 同日に同地域のご予約が２件成約した場合、それぞれに計上されている交通費の半額をキャッシュバックします（撮影時に現金お渡し）。";
+      });
+
+      document.getElementById("bookBtn").addEventListener("click", () => {
+        const subject = encodeURIComponent("民泊撮影39PHOTO・ご依頼");
+        const body = `以下の項目をご記入の上、メールを送信してください。　
+
+※この時点ではご予約は確定しておりません。追って日程調整またはご予約確定のご案内をお送りします。
+
+お名前：
+
+物件住所：
+
+お電話番号：
+
+ご要望など：
+
+地域：${document.getElementById("location").selectedOptions[0].text}
+間取り：${document.getElementById("plan").selectedOptions[0].text}
+オプション：${document.getElementById("option").selectedOptions[0].text}
+お支払い方法：${state.payment}
+ご希望日時：${state.month}月${state.day}日 ${state.time}
+税込合計：${document.getElementById("total").textContent}
+所要時間：${document.getElementById("duration").textContent}
+納品枚数：${document.getElementById("images").textContent}`;
+        window.location.href = `mailto:info@39photo.jp?subject=${subject}&body=${encodeURIComponent(body)}`;
+      });
+
+      document.getElementById("altBtn").addEventListener("click", () => {
+        const subject = encodeURIComponent("民泊撮影39PHOTO・お見積り依頼");
+        window.location.href = `mailto:info@39photo.jp?subject=${subject}`;
+      });
+    });
+  </script>
+<div class="button-row">
+  <button id="bookBtn" disabled>予約に進む</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Wixからのアクセスのみ許可（ドメインを適宜変更してください）
+RewriteCond %{HTTP_REFERER} !^https://(www\.)?your-wix-domain\.com [NC]
+RewriteRule ^.*$ - [F,L]

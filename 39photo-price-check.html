@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="39PHOTOの撮影料金を、地域・間取り・オプションから確認できます。">
+<title>39PHOTO | 撮影料金シミュレーター・確認用</title>
+<style>
+:root{--ink:#203630;--muted:#65716c;--line:#dce2db;--green:#275c48;--pale:#eaf1e9;--paper:#f6f5ef;--radius:18px}
+*{box-sizing:border-box}html{width:100%;margin:0;padding:0}body{width:100%;margin:0;padding:0;background:transparent;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP","Hiragino Kaku Gothic ProN",Meiryo,sans-serif;line-height:1.75;-webkit-font-smoothing:antialiased}main{width:100%;max-width:1120px;margin:0 auto;padding:24px;min-width:0}a{color:var(--green);text-underline-offset:4px;overflow-wrap:anywhere}select,input{font:inherit;touch-action:manipulation}a,select,input,label{-webkit-tap-highlight-color:transparent}:focus-visible{outline:3px solid #b0824c;outline-offset:4px}.intro{margin:0 0 24px}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;margin:0 0 6px;color:var(--green)}h1{font-size:clamp(21px,3vw,28px);font-weight:650;letter-spacing:.02em;line-height:1.5;margin:0 0 8px}.intro p:not(.eyebrow){font-size:13px;color:var(--muted);margin:0}.workspace{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px;align-items:start;min-width:0}.input-column{display:contents}.form-card{grid-column:1;grid-row:1}.summary-column{grid-column:2;grid-row:1;min-width:0}.form-card,.result-card{border:1px solid var(--line);border-radius:var(--radius);background:white;min-width:0;overflow:hidden}.form-card{padding:24px}.step+.step{border-top:1px solid var(--line);margin-top:24px;padding-top:20px}.step-title{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:16px;font-weight:650}.step-number{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;flex:0 0 26px;border:1px solid #cbd9ce;border-radius:50%;font-size:10px;font-weight:700;color:var(--green)}fieldset{border:0;margin:0;padding:0;min-width:0}legend{padding:0}select{display:block;width:100%;min-width:0;max-width:100%;height:50px;padding:0 36px 0 13px;border:1px solid #becbc1;border-radius:10px;color:var(--ink);background:white;font-size:16px}.helper{font-size:12px;line-height:1.8;color:var(--muted);margin:10px 0 0}.helper a{display:inline}.plan-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.plan{position:relative;cursor:pointer;min-width:0}.plan input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0}.plan-face{display:block;border:1px solid #cbd5cc;border-radius:11px;text-align:center;padding:16px 3px 13px;min-height:85px}.plan input:checked+.plan-face{border:2px solid var(--green);padding:15px 2px 12px;background:var(--pale)}.plan input:focus-visible+.plan-face{outline:3px solid #b0824c;outline-offset:3px}.plan-name{display:block;font-size:16px;letter-spacing:-.3px;font-weight:650;white-space:nowrap}.plan-price{display:block;font-size:11px;color:var(--muted);margin-top:3px;white-space:nowrap}.option-list{display:grid;gap:10px}.option-label{position:relative;display:flex;gap:12px;align-items:center;min-width:0;padding:14px;border:1px solid #cbd5cc;border-radius:11px;cursor:pointer}.option-label:has(input:checked){background:var(--pale);border-color:var(--green)}.option-label input{accent-color:var(--green);width:19px;height:19px;flex:0 0 19px;margin:0}.option-label strong{display:block;font-size:14px;font-weight:600;overflow-wrap:anywhere}.option-label small{display:block;font-size:12px;color:var(--muted);margin-top:1px}.none-note{font-size:11px;color:var(--muted);margin:10px 0 0}.result-card{position:static}.result-top{background:var(--ink);color:white;padding:24px}.result-kicker{display:flex;align-items:center;gap:8px;font-size:12px;color:#cddcd0;letter-spacing:.04em;margin:0 0 12px}.status-dot{width:6px;height:6px;border-radius:50%;background:#b6d5a9;display:inline-block}.total-line{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;min-height:54px}#total{font-size:clamp(36px,4.5vw,45px);line-height:1.3;letter-spacing:-1.3px;font-weight:650;font-variant-numeric:tabular-nums}.tax-label{font-size:12px;color:#d6e2d7}.total-caption{font-size:11px;line-height:1.8;color:#c1d3c8;margin:9px 0 0}.result-body{padding:22px 24px 24px}.empty-state{font-size:13px;color:var(--muted);text-align:center;padding:10px 0 22px}.selection{font-size:12px;line-height:1.8;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:14px;margin:0 0 14px;overflow-wrap:anywhere}.breakdown{margin:0;font-size:12px}.breakdown div{display:flex;justify-content:space-between;gap:10px;margin:7px 0}.breakdown dt{color:var(--muted);min-width:0}.breakdown dd{margin:0;white-space:nowrap;font-variant-numeric:tabular-nums}.metrics{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:13px 0;margin:18px 0}.metric+.metric{border-left:1px solid var(--line);padding-left:15px}.metric-label{display:block;font-size:11px;color:var(--muted);margin-bottom:3px}.metric-value{display:block;font-size:22px;font-weight:600;line-height:1.6;letter-spacing:-.3px}.metric-value small{font-size:12px;font-weight:400;margin-left:3px}.cta{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border-radius:10px;background:var(--green);color:white;text-decoration:none;padding:14px 10px;font-size:14px;font-weight:600;margin-top:16px;min-height:50px}.cta:hover{background:#1c4938}.cta svg{width:16px;height:16px;flex:0 0 16px}.caution{font-size:11px;line-height:1.9;color:var(--muted);margin:12px 0 0}.multi-card{grid-column:1/-1;grid-row:2;border:1px solid #d9dfd1;background:#edf1e7;border-radius:14px;padding:20px 24px;min-width:0}.multi-card h2{font-size:15px;font-weight:650;margin:0 0 8px}.multi-card p{font-size:12px;line-height:1.9;color:#52634e;margin:0}.multi-links{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;font-weight:600;margin-top:11px}.cashback{grid-column:1/-1;grid-row:3;font-size:11px;line-height:1.9;color:var(--muted);margin:-6px 2px 0}.lower-note{font-size:11px;line-height:1.9;color:var(--muted);margin:18px 2px 0}[hidden]{display:none!important}svg{display:inline-block;vertical-align:middle}noscript{display:block;padding:16px;background:#ffe8db;margin-bottom:20px}
+@media(max-width:839px){main{padding:20px}.workspace{grid-template-columns:minmax(0,1fr);gap:18px}.form-card{grid-column:1;grid-row:1}.summary-column{grid-column:1;grid-row:2}.multi-card{grid-column:1;grid-row:3}.cashback{grid-column:1;grid-row:4}.result-body{padding:22px 24px}.result-top{padding:24px}#total{font-size:42px}}
+@media(min-width:600px) and (max-width:839px){.form-card{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}.step:first-child{grid-column:1/-1}.step+.step{margin-top:22px;padding-top:18px}.step-title{font-size:15px}.plan-name{font-size:15px}.option-label{padding:12px}.result-card{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}.result-top{display:flex;flex-direction:column;justify-content:center}.result-body{padding:20px}.result-top .total-caption{max-width:220px}.selection{margin-bottom:10px;padding-bottom:10px}.metrics{margin:14px 0;padding:10px 0}.caution{font-size:11px}.cta{margin-top:12px}}
+@media(max-width:599px){main{padding:16px 12px}.intro{margin-bottom:18px}h1{font-size:22px}.intro p:not(.eyebrow){font-size:12px}.form-card{padding:20px}.step+.step{margin-top:21px;padding-top:17px}.plan-name{font-size:16px}.form-card .plan-price{font-size:11px}.result-top{padding:23px}.result-body{padding:20px 23px 23px}.multi-card{padding:19px 21px}.multi-links{gap:10px 18px}.lower-note{margin-top:16px}}
+@media(max-width:359px){main{padding:14px 8px}h1{font-size:20px}.form-card{padding:18px 15px}.step-title{font-size:15px}.plan-grid{gap:6px}.plan-name{font-size:14px}.plan-price{font-size:10px!important}.option-label{padding:13px;gap:10px}.result-top{padding:21px}.result-body{padding:19px 21px 21px}.multi-card{padding:18px}.cta{font-size:13px}.total-line{gap:6px}#total{font-size:38px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+@media print{main{padding:0}.workspace{display:block}.form-card,.multi-card,.cashback,.cta{display:none}.result-card{display:block;max-width:600px;margin:auto;border:1px solid #aaa}.result-top{background:white;color:var(--ink)}.result-kicker,.tax-label,.total-caption{color:var(--muted)}}
+</style>
+</head>
+<body>
+
+<main>
+<section class="intro" aria-labelledby="page-title"><p class="eyebrow">39PHOTO</p><h1 id="page-title">撮影料金シミュレーター</h1><p>地域・間取り・オプションから、1物件の撮影料金を確認できます。</p></section>
+<noscript>このシミュレーターにはJavaScriptが必要です。ブラウザの設定で有効にしてください。</noscript>
+<div class="workspace">
+<div class="input-column">
+<form class="form-card" id="estimate-form" aria-label="撮影条件の選択">
+<div class="step"><label class="step-title" for="location"><span class="step-number" aria-hidden="true">01</span>撮影する地域</label><select id="location" required><option value="">地域を選択</option></select><p class="helper">地域が一覧にない場合は、<a id="unlisted-link" href="mailto:info@39photo.jp?subject=%E6%B0%91%E6%B3%8A%E6%92%AE%E5%BD%B139PHOTO%E3%83%BB%E3%81%8A%E8%A6%8B%E7%A9%8D%E3%82%8A%E4%BE%9D%E9%A0%BC">個別にお問い合わせください ↗</a></p></div>
+<fieldset class="step"><legend class="step-title"><span class="step-number" aria-hidden="true">02</span>物件の間取り</legend><div class="plan-grid"><label class="plan"><input type="radio" name="plan" value="0" required><span class="plan-face"><span class="plan-name">1LDK</span><span class="plan-price">加算なし</span></span></label><label class="plan"><input type="radio" name="plan" value="4000"><span class="plan-face"><span class="plan-name">2LDK</span><span class="plan-price">＋¥4,000</span></span></label><label class="plan"><input type="radio" name="plan" value="8000"><span class="plan-face"><span class="plan-name">3LDK以上</span><span class="plan-price">＋¥8,000</span></span></label></div></fieldset>
+<fieldset class="step"><legend class="step-title"><span class="step-number" aria-hidden="true">03</span>オプション</legend><div class="option-list"><label class="option-label"><input id="cutlery" type="checkbox"><span><strong>カトラリー集合写真</strong><small>＋¥4,000</small></span></label><label class="option-label"><input id="night" type="checkbox"><span><strong>夜撮影</strong><small>＋基本料金の50%</small></span></label></div><p class="none-note">基本料金は「地域料金＋間取り加算」です。<br>オプションが不要な場合は、選択せずにお進みください。</p></fieldset>
+</form>
+<section class="multi-card" aria-labelledby="multi-title"><h2 id="multi-title">複数物件をお申込みの場合</h2><p>複数申込割引については、別途お問い合わせいただくか、Googleフォームにも記載する欄がありますので、そのままお進みください。<br>複数物件の料金は、内容に応じてご案内いたします。</p><div class="multi-links"><a href="mailto:info@39photo.jp?subject=%E6%B0%91%E6%B3%8A%E6%92%AE%E5%BD%B139PHOTO%E3%83%BB%E8%A4%87%E6%95%B0%E7%89%A9%E4%BB%B6%E3%81%AE%E3%81%8A%E8%A6%8B%E7%A9%8D%E3%82%8A">メールで問い合わせる ↗</a><a class="form-link" href="https://docs.google.com/forms/d/e/1FAIpQLScijnMyziXoxtO_18on50zHKSUbsYXAu6t9TfziTywVr6qsBA/viewform" target="_blank" rel="noopener noreferrer">Googleフォームへ ↗</a></div></section>
+<p class="cashback" id="cashback" hidden>同日に同地域のご予約が2件成約した場合、それぞれに計上されている交通費の半額をキャッシュバックします（撮影時に現金お渡し）。表示金額には含めていません。</p>
+</div>
+<aside class="summary-column" aria-label="撮影料金の確認"><section class="result-card"><div class="result-top"><p class="result-kicker"><span class="status-dot" aria-hidden="true"></span>1物件の撮影料金</p><div class="total-line"><output id="total" aria-label="税抜合計金額">—</output><span class="tax-label">税抜</span></div><p class="total-caption" id="total-caption">地域と間取りを選ぶと、自動で計算します。</p></div><div class="result-body"><div id="empty-state" class="empty-state">撮影する地域と物件の間取りを<br>選択してください。</div><div id="result-details" hidden><p class="selection" id="selection"></p><dl class="breakdown"><div><dt>地域料金</dt><dd id="region-price"></dd></div><div><dt>間取り加算</dt><dd id="plan-price"></dd></div><div id="cutlery-row" hidden><dt>カトラリー集合写真</dt><dd>¥4,000</dd></div><div id="night-row" hidden><dt>夜撮影</dt><dd id="night-price"></dd></div></dl><div class="metrics"><div class="metric"><span class="metric-label">所要時間</span><span class="metric-value"><span id="duration"></span><small>分</small></span></div><div class="metric"><span class="metric-label">納品枚数</span><span class="metric-value"><span id="images"></span><small>枚補償</small></span></div></div></div><a class="cta form-link" href="https://docs.google.com/forms/d/e/1FAIpQLScijnMyziXoxtO_18on50zHKSUbsYXAu6t9TfziTywVr6qsBA/viewform" target="_blank" rel="noopener noreferrer">Googleフォームへ進む<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 15 15 5M5 5h10v10" stroke="currentColor" stroke-width="1.5"/></svg></a><p class="caution">Googleフォームは別のタブで開きます。選択内容は自動で引き継がれません。<br>フォーム送信時点では予約は確定しておりません。内容・撮影場所・スケジュール等を確認後、撮影可否および正式な料金をご連絡いたします。</p></div></section></aside>
+</div>
+<p class="lower-note">表示金額はすべて税抜です。複数申込割引はこのシミュレーターでは計算していません。<br>撮影のご希望は、Googleフォームからお知らせください。</p>
+<p id="announcement" role="status" style="position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0"></p>
+</main>
+<script id="pricing-engine">
+'use strict';
+const REGIONS = [{"id":"0","name":"東京23区","price":28000},{"id":"1","name":"横浜","price":31000},{"id":"2","name":"市川市・千葉市","price":31000},{"id":"3","name":"湘南","price":38500},{"id":"4","name":"九十九里・いすみ・南房総","price":40000},{"id":"5","name":"小田原","price":40600},{"id":"6","name":"箱根","price":41300},{"id":"7","name":"伊豆","price":44000},{"id":"8","name":"軽井沢","price":46000},{"id":"9","name":"名古屋","price":56600},{"id":"10","name":"京都","price":63000},{"id":"11","name":"大阪","price":64000},{"id":"12","name":"金沢","price":68000},{"id":"13","name":"福岡","price":80000},{"id":"14","name":"札幌","price":67000},{"id":"15","name":"函館","price":67000},{"id":"16","name":"小樽","price":67000},{"id":"17","name":"ニセコ","price":67000},{"id":"18","name":"沖縄（那覇）","price":67000}];
+const PLANS = [{value:0,name:'1LDK'},{value:4000,name:'2LDK'},{value:8000,name:'3LDK以上'}];
+function calculateQuote(regionId, planValue, cutlery, night) {
+ const region = REGIONS.find(r => r.id === regionId);
+ const planIndex = PLANS.findIndex(p => p.value === planValue);
+ if (!region || planIndex < 0 || typeof cutlery !== 'boolean' || typeof night !== 'boolean') return null;
+ const base = region.price + planValue;
+ const nightPrice = night ? Math.round(base * .5) : 0;
+ const cutleryPrice = cutlery ? 4000 : 0;
+ return {region:region.name, regionPrice:region.price, plan:PLANS[planIndex].name, planPrice:planValue, nightPrice, cutleryPrice, total:base+nightPrice+cutleryPrice, duration:[60,70,80][planIndex] + (cutlery ? 30 : 0) + (night ? [30,35,40][planIndex] : 0), images:[30,35,40][planIndex] + (cutlery ? 5 : 0) + (night ? [8,13,18][planIndex] : 0)};
+}
+</script>
+<script id="interface">
+'use strict';
+const $ = id => document.getElementById(id);
+const yen = value => '¥' + value.toLocaleString('ja-JP');
+let currentQuote = null;
+REGIONS.forEach(region => { const o = document.createElement('option'); o.value = region.id; o.textContent = region.name; $('location').append(o); });
+function updateQuote() {
+ const plan = document.querySelector('input[name="plan"]:checked');
+ const cutlery = $('cutlery').checked, night = $('night').checked;
+ currentQuote = calculateQuote($('location').value, plan ? Number(plan.value) : null, cutlery, night);
+ $('result-details').hidden = !currentQuote;
+ $('empty-state').hidden = Boolean(currentQuote);
+ $('cashback').hidden = !$('location').value || $('location').value === '0';
+ if (!currentQuote) { $('total').textContent = '—'; $('total-caption').textContent = '地域と間取りを選ぶと、自動で計算します。'; $('announcement').textContent = ''; return; }
+ const q = currentQuote;
+ const option = cutlery && night ? 'カトラリー集合写真＋夜撮影' : cutlery ? 'カトラリー集合写真' : night ? '夜撮影' : 'オプションなし';
+ $('total').textContent = yen(q.total);
+ $('total-caption').textContent = '選択した条件に応じた税抜金額です。';
+ $('selection').textContent = q.region + ' / ' + q.plan + ' / ' + option;
+ $('region-price').textContent = yen(q.regionPrice);
+ $('plan-price').textContent = yen(q.planPrice);
+ $('cutlery-row').hidden = !cutlery;
+ $('night-row').hidden = !night;
+ $('night-price').textContent = yen(q.nightPrice);
+ $('duration').textContent = q.duration;
+ $('images').textContent = q.images;
+ $('announcement').textContent = '税抜金額 ' + yen(q.total) + '、所要時間 ' + q.duration + '分、納品枚数 ' + q.images + '枚補償。';
+}
+$('estimate-form').addEventListener('change', updateQuote);
+$('estimate-form').addEventListener('submit', event => event.preventDefault());
+updateQuote();
+</script>
+</body>
+</html>

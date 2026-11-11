@@ -27,7 +27,7 @@
 <form class="form-card" id="estimate-form" aria-label="撮影条件の選択">
 <div class="step"><label class="step-title" for="location"><span class="step-number" aria-hidden="true">01</span>撮影する地域</label><select id="location" required><option value="">地域を選択</option></select><p class="helper">地域が一覧にない場合は、<a id="unlisted-link" href="mailto:info@39photo.jp?subject=%E6%B0%91%E6%B3%8A%E6%92%AE%E5%BD%B139PHOTO%E3%83%BB%E3%81%8A%E8%A6%8B%E7%A9%8D%E3%82%8A%E4%BE%9D%E9%A0%BC">個別にお問い合わせください ↗</a></p></div>
 <fieldset class="step"><legend class="step-title"><span class="step-number" aria-hidden="true">02</span>物件の間取り</legend><div class="plan-grid"><label class="plan"><input type="radio" name="plan" value="0" required><span class="plan-face"><span class="plan-name">1LDK</span></span></label><label class="plan"><input type="radio" name="plan" value="4000"><span class="plan-face"><span class="plan-name">2LDK</span></span></label><label class="plan"><input type="radio" name="plan" value="8000"><span class="plan-face"><span class="plan-name">3LDK以上</span></span></label></div></fieldset>
-<fieldset class="step"><legend class="step-title"><span class="step-number" aria-hidden="true">03</span>オプション</legend><div class="option-list"><label class="option-label"><input id="cutlery" type="checkbox"><span><strong>カトラリー集合写真</strong><small>＋¥4,000</small></span></label><label class="option-label"><input id="night" type="checkbox"><span><strong>夜撮影</strong><small>＋基本料金の50%</small></span></label></div><p class="none-note">基本料金は「地域料金＋間取り加算」です。<br>オプションが不要な場合は、選択せずにお進みください。</p></fieldset>
+<fieldset class="step"><legend class="step-title"><span class="step-number" aria-hidden="true">03</span>オプション</legend><div class="option-list"><label class="option-label"><input id="cutlery" type="checkbox"><span><strong>カトラリー集合写真</strong><small>＋¥4,000</small></span></label><label class="option-label"><input id="night" type="checkbox"><span><strong>夜撮影</strong><small>＋基本料金の50%</small></span></label><label class="option-label"><input id="panorama" type="checkbox"><span><strong>360°パノラマ写真</strong><small>Booking.com掲載専用</small></span></label></div><p class="none-note">基本料金は「地域料金＋間取り加算」です。<br>オプションが不要な場合は、選択せずにお進みください。</p></fieldset>
 </form>
 <section class="multi-card" aria-labelledby="multi-title"><h2 id="multi-title">複数物件をお申込みの場合</h2><p>複数申込割引については、別途お問い合わせいただくか、Googleフォームにも記載する欄がありますので、そのままお進みください。<br>複数物件の料金は、内容に応じてご案内いたします。</p><div class="multi-links"><a href="mailto:info@39photo.jp?subject=%E6%B0%91%E6%B3%8A%E6%92%AE%E5%BD%B139PHOTO%E3%83%BB%E8%A4%87%E6%95%B0%E7%89%A9%E4%BB%B6%E3%81%AE%E3%81%8A%E8%A6%8B%E7%A9%8D%E3%82%8A">メールで問い合わせる ↗</a><a class="form-link" href="https://docs.google.com/forms/d/e/1FAIpQLScijnMyziXoxtO_18on50zHKSUbsYXAu6t9TfziTywVr6qsBA/viewform" target="_blank" rel="noopener noreferrer">Googleフォームへ ↗</a></div></section>
 <p class="cashback" id="cashback" hidden>同日に同地域のご予約が2件成約した場合、それぞれに計上されている交通費の半額をキャッシュバックします（撮影時に現金お渡し）。表示金額には含めていません。</p>
@@ -41,14 +41,15 @@
 'use strict';
 const REGIONS = [{"id":"0","name":"東京23区","price":28000},{"id":"1","name":"横浜","price":31000},{"id":"2","name":"市川市・千葉市","price":31000},{"id":"3","name":"湘南","price":38500},{"id":"4","name":"九十九里・いすみ・南房総","price":40000},{"id":"5","name":"小田原","price":40600},{"id":"6","name":"箱根","price":41300},{"id":"7","name":"伊豆","price":44000},{"id":"8","name":"軽井沢","price":46000},{"id":"9","name":"名古屋","price":56600},{"id":"10","name":"京都","price":63000},{"id":"11","name":"大阪","price":64000},{"id":"12","name":"金沢","price":68000},{"id":"13","name":"福岡","price":80000},{"id":"14","name":"札幌","price":67000},{"id":"15","name":"函館","price":67000},{"id":"16","name":"小樽","price":67000},{"id":"17","name":"ニセコ","price":67000},{"id":"18","name":"沖縄（那覇）","price":67000}];
 const PLANS = [{value:0,name:'1LDK'},{value:4000,name:'2LDK'},{value:8000,name:'3LDK以上'}];
-function calculateQuote(regionId, planValue, cutlery, night) {
+function calculateQuote(regionId, planValue, cutlery, night, panorama = false) {
  const region = REGIONS.find(r => r.id === regionId);
  const planIndex = PLANS.findIndex(p => p.value === planValue);
- if (!region || planIndex < 0 || typeof cutlery !== 'boolean' || typeof night !== 'boolean') return null;
+ if (!region || planIndex < 0 || typeof cutlery !== 'boolean' || typeof night !== 'boolean' || typeof panorama !== 'boolean') return null;
  const base = region.price + planValue;
  const nightPrice = night ? Math.round(base * .5) : 0;
  const cutleryPrice = cutlery ? 4000 : 0;
- return {region:region.name, regionPrice:region.price, plan:PLANS[planIndex].name, planPrice:planValue, nightPrice, cutleryPrice, total:base+nightPrice+cutleryPrice, duration:[60,70,80][planIndex] + (cutlery ? 30 : 0) + (night ? [30,35,40][planIndex] : 0), images:[30,35,40][planIndex] + (cutlery ? 5 : 0) + (night ? [8,13,18][planIndex] : 0)};
+ const panoramaPrice = panorama ? [6000,9000,12000][planIndex] : 0;
+ return {region:region.name, regionPrice:region.price, plan:PLANS[planIndex].name, planPrice:planValue, nightPrice, cutleryPrice, panoramaPrice, total:base+nightPrice+cutleryPrice+panoramaPrice, duration:[60,70,80][planIndex] + (cutlery ? 30 : 0) + (night ? [30,35,40][planIndex] : 0), images:[30,35,40][planIndex] + (cutlery ? 5 : 0) + (night ? [8,13,18][planIndex] : 0)};
 }
 </script>
 <script id="interface">
@@ -59,14 +60,14 @@ let currentQuote = null;
 REGIONS.forEach(region => { const o = document.createElement('option'); o.value = region.id; o.textContent = region.name; $('location').append(o); });
 function updateQuote() {
  const plan = document.querySelector('input[name="plan"]:checked');
- const cutlery = $('cutlery').checked, night = $('night').checked;
- currentQuote = calculateQuote($('location').value, plan ? Number(plan.value) : null, cutlery, night);
+ const cutlery = $('cutlery').checked, night = $('night').checked, panorama = $('panorama').checked;
+ currentQuote = calculateQuote($('location').value, plan ? Number(plan.value) : null, cutlery, night, panorama);
  $('result-details').hidden = !currentQuote;
  $('empty-state').hidden = Boolean(currentQuote);
  $('cashback').hidden = !$('location').value || $('location').value === '0';
  if (!currentQuote) { $('total').textContent = '—'; $('total-caption').textContent = '地域と間取りを選ぶと、自動で計算します。'; $('announcement').textContent = ''; return; }
  const q = currentQuote;
- const option = cutlery && night ? 'カトラリー集合写真＋夜撮影' : cutlery ? 'カトラリー集合写真' : night ? '夜撮影' : 'オプションなし';
+ const option = [cutlery ? 'カトラリー集合写真' : '', night ? '夜撮影' : '', panorama ? '360°パノラマ写真' : ''].filter(Boolean).join('＋') || 'オプションなし';
  $('total').textContent = yen(q.total);
  $('total-caption').textContent = '選択した条件に応じた税抜金額です。';
  $('selection').textContent = q.region + ' / ' + q.plan + ' / ' + option;
